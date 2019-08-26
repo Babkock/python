@@ -1,5 +1,10 @@
 #!/usr/bin/python3
-inF = open("input.txt", "r")
+import argparse
+parser = argparse.ArgumentParser(description='Process')
+parser.add_argument("-file", help='The file to read', required=True)
+args = parser.parse_args()
+
+inF = open(args.file, "r")
 lines = inF.read().splitlines()
 x = 0
 
