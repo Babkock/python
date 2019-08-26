@@ -7,6 +7,6 @@ for line in contents:
     outF.write("\n")
 outF.close()
 
-print("File written successfully!\n")
+print("File written successfully!")
 exit(0)
 
