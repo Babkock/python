@@ -1,8 +1,9 @@
 #!/usr/bin/python3
-#
-# Tanner Babcock
-# Topic 2
-# August 27, 2019
+"""
+Tanner Babcock
+Topic 2 - Variables
+August 27, 2019
+"""
 from variables import quantity, item, size, test
 
 print("Quantity: {} {}".format(quantity, item))
