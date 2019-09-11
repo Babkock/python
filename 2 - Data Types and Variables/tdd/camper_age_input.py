@@ -3,14 +3,14 @@
 Tanner Babcock
 September 10, 2019
 
-Topic 5: Test-driven development
+Module 2, Topic 5: Test-driven development
 """
 
 def convert_to_months(years):
     months = (years * 12)
     return months
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     age_in_years = input("Age in years: ")
     age_in_months = convert_to_months(int(age_in_years))
 
