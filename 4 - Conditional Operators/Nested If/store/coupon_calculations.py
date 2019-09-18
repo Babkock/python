@@ -24,13 +24,13 @@ def calculate_order(price, cash_coupon, percent_coupon):
             final_price -= discount
     tax = round((final_price * 0.06), 2) # sales tax
     # print("Subtotal: {}".format(final_price))
-    if final_price <= 10.00:
+    if final_price < 10.00:
         # print("Small shipping")
         shipping = 5.95
-    elif (final_price > 10.00) and (final_price <= 30.00):
+    elif (final_price >= 10.00) and (final_price < 30.00):
         # print("Medium shipping")
         shipping = 7.95
-    elif (final_price > 30.00) and (final_price <= 50.00):
+    elif (final_price >= 30.00) and (final_price < 50.00):
         # print("Large shipping")
         shipping = 11.95
     else:
@@ -38,10 +38,10 @@ def calculate_order(price, cash_coupon, percent_coupon):
     return (final_price + shipping + tax)
 
 if __name__ == '__main__':
-    print("7.00, $5 off, 10% off = $ {0:.2f}".format(calculate_order(7.00, 5, 10)))
-    print("7.50, $5 off, 15% off = $ {0:.2f}".format(calculate_order(7.50, 5, 15)))
-    print("7.75, $5 off, 20% off = $ {0:.2f}".format(calculate_order(7.75, 5, 20)))
-    print("8.00, $10 off, 10% off = $ {0:.2f}".format(calculate_order(8.00, 10, 10)))
-    print("8.25, $11 off, 15% off = $ {0:.2f}".format(calculate_order(8.25, 11, 15)))
-    print("9.00, $12 off, 10% off = $ {0:.2f}".format(calculate_order(9.00, 12, 10)))
+    print("10.02, $5 off, 10% off = $ {0:.2f}".format(calculate_order(10.02, 5, 10)))
+    print("12.00, $5 off, 15% off = $ {0:.2f}".format(calculate_order(12.00, 5, 15)))
+    print("18.00, $5 off, 20% off = $ {0:.2f}".format(calculate_order(18.00, 5, 20)))
+    print("20.00, $10 off, 10% off = $ {0:.2f}".format(calculate_order(20.00, 10, 10)))
+    print("22.25, $11 off, 15% off = $ {0:.2f}".format(calculate_order(22.25, 11, 15)))
+    print("26.00, $12 off, 10% off = $ {0:.2f}".format(calculate_order(26.00, 12, 10)))
 
