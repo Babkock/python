@@ -38,10 +38,10 @@ def calculate_order(price, cash_coupon, percent_coupon):
     return (final_price + shipping + tax)
 
 if __name__ == '__main__':
-    print("10.02, $5 off, 10% off = $ {0:.2f}".format(calculate_order(10.02, 5, 10)))
-    print("12.00, $5 off, 15% off = $ {0:.2f}".format(calculate_order(12.00, 5, 15)))
-    print("18.00, $5 off, 20% off = $ {0:.2f}".format(calculate_order(18.00, 5, 20)))
-    print("20.00, $10 off, 10% off = $ {0:.2f}".format(calculate_order(20.00, 10, 10)))
-    print("22.25, $11 off, 15% off = $ {0:.2f}".format(calculate_order(22.25, 11, 15)))
-    print("26.00, $12 off, 10% off = $ {0:.2f}".format(calculate_order(26.00, 12, 10)))
+    print("50.00, $5 off, 10% off = $ {0:.2f}".format(calculate_order(50.00, 5, 10)))
+    print("53.00, $5 off, 15% off = $ {0:.2f}".format(calculate_order(53.00, 5, 15)))
+    print("54.00, $10 off, 20% off = $ {0:.2f}".format(calculate_order(54.00, 10, 20)))
+    print("58.00, $12 off, 10% off = $ {0:.2f}".format(calculate_order(58.00, 12, 10)))
+    print("60.00, $14 off, 15% off = $ {0:.2f}".format(calculate_order(60.00, 14, 15)))
+    print("62.00, $16 off, 10% off = $ {0:.2f}".format(calculate_order(62.00, 16, 10)))
 

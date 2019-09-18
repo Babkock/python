@@ -25,11 +25,21 @@ class FunctionTestCase(unittest.TestCase):
         self.assertEqual(round(calculate_order(22.25, 11, 15), 2), 16.08)
         self.assertEqual(round(calculate_order(26.00, 12, 10), 2), 21.31)
 
-    #def test_price_under_between_thirty_fifty(self):
+    def test_price_under_between_thirty_fifty(self):
+        self.assertEqual(round(calculate_order(30.00, 5, 10), 2), 31.80)
+        self.assertEqual(round(calculate_order(35.00, 5, 15), 2), 34.98)
+        self.assertEqual(round(calculate_order(40.00, 10, 20), 2), 33.39)
+        self.assertEqual(round(calculate_order(44.00, 12, 10), 2), 38.48)
+        self.assertEqual(round(calculate_order(46.25, 14, 15), 2), 37.00)
+        self.assertEqual(round(calculate_order(49.00, 16, 10), 2), 39.43)
 
-    #def test_price_under_over_fifty(self):
-
-
+    def test_price_under_over_fifty(self):
+        self.assertEqual(round(calculate_order(50.00, 5, 10), 2), 54.88)
+        self.assertEqual(round(calculate_order(53.00, 5, 15), 2), 55.20)
+        self.assertEqual(round(calculate_order(54.00, 10, 20), 2), 49.26)
+        self.assertEqual(round(calculate_order(58.00, 12, 10), 2), 55.83)
+        self.assertEqual(round(calculate_order(60.00, 14, 15), 2), 53.40)
+        self.assertEqual(round(calculate_order(62.00, 16, 10), 2), 55.83)
 
 if __name__ == "__main__":
     unittest.main()
