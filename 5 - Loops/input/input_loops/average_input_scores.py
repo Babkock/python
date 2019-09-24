@@ -19,3 +19,17 @@ if __name__ == '__main__':
     first_name = input("First name: ")
     last_name = input("Last name: ")
 
+    try:
+        scores = [];
+        string = 0;
+        while True:
+            string = input("Please enter a score, or 'q' to quit: ")
+            if string != 'q':
+                scores.append(int(string))
+            else:
+                raise ValueError
+    except:
+        avg_scores = average(scores)
+    finally:
+        print("{0}, {1} grade: {2:.2f}".format(last_name, first_name, avg_scores))
+
