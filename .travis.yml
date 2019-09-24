@@ -6,7 +6,10 @@ virtualenv:
 install:
     - echo install
 script:
-    - cd 2\ -\ Data\ Types\ and\ Variables
-    - cd tdd/test
-    - cp ../camper/camper_age_input.py .
-    - ./test_functions.py
+    - ./tester 1
+    - ./tester 2
+    - ./tester 3
+    - ./tester 4
+    - ./tester 5
+    - ./tester 6
+

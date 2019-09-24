@@ -1,0 +1,66 @@
+#!/bin/bash
+if [ -z "$1" ]; then
+	printf "USAGE: %s [tests 1-6]\n" "$0" > /dev/stderr
+	false
+elif [ "$1" == "1" ]; then
+	pushd 2\ -\ Data\ Types\ and\ Variables > /dev/null
+	pushd tdd/test > /dev/null
+	cp ../camper/camper_age_input.py . > /dev/null
+	printf "1: camper_age_input.py, 2: test_functions.py\n"
+	./test_functions.py
+	rm -f camper_age_input.py > /dev/null
+	popd > /dev/null
+	popd > /dev/null
+	true
+elif [ "$1" == "2" ]; then
+	pushd 3\ -\ Strings,\ Basic\ IO,\ Operators > /dev/null
+	pushd io/test > /dev/null
+	cp ../average_scores/average_scores.py . > /dev/null
+	printf "1: average_scores.py, 2: test.py\n"
+	./test.py
+	rm -f average_scores.py > /dev/null
+	popd > /dev/null
+	popd > /dev/null
+	true
+elif [ "$1" == "3" ]; then
+	pushd 4\ -\ Conditional\ Operators > /dev/null
+	pushd Input\ Validation/test > /dev/null
+	cp ../input_validation/validation_with_if.py . > /dev/null
+	printf "1: validation_with_if.py, 2: test_validation_with_if.py\n"
+	./test_validation_with_if.py
+	rm -f validation_with_if.py > /dev/null
+	popd > /dev/null
+	popd > /dev/null
+	true
+elif [ "$1" == "4" ]; then
+	pushd 4\ -\ Conditional\ Operators > /dev/null
+	pushd Nested\ If/test > /dev/null
+	cp ../store/coupon_calculations.py . > /dev/null
+	printf "1: coupon_calculations.py, 2: test_coupon_calculations.py\n"
+	./test_coupon_calculations.py
+	rm -f coupon_calculations.py > /dev/null
+	popd > /dev/null
+	popd > /dev/null
+	true
+elif [ "$1" == "5" ]; then
+	pushd 4\ -\ Conditional\ Operators > /dev/null
+	pushd Try/test > /dev/null
+	cp ../validation_try/validation_with_try.py . > /dev/null
+	printf "1: validation_with_try.py, 2: test_validation_with_try.py\n"
+	./test_validation_with_try.py
+	rm -f validation_with_try > /dev/null
+	popd > /dev/null
+	popd > /dev/null
+	true
+elif [ "$1" == "6" ]; then
+	pushd 5\ -\ Loops > /dev/null
+	pushd input/test > /dev/null
+	cp ../input_loops/average_input_scores.py . > /dev/null
+	printf "1: average_input_scores.py, 2: test_loop.py\n"
+	./test_loop.py
+	rm -f average_input_scores.py
+	popd > /dev/null
+	popd > /dev/null
+	true
+fi
+
