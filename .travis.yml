@@ -4,7 +4,7 @@ python:
 virtualenv:
     system_site_packages: true
 install:
-    - mkdir tests
+    - echo install
 script:
     - cd 2\ -\ Data\ Types\ and\ Variables
     - cd tdd/test
