@@ -1,0 +1,12 @@
+language: python
+python:
+    - "3.5"
+virtualenv:
+    system_site_packages: true
+install:
+    - mkdir tests
+script:
+    - cd 2\ -\ Data\ Types\ and\ Variables
+    - cd tdd/test
+    - cp ../camper/camper_age_input.py .
+    - ./test_functions.py
