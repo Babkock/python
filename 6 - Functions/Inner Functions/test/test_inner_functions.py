@@ -15,6 +15,13 @@ class InnerFunctionsTest(unittest.TestCase):
     def test_measurements_square(self):
         self.assertEqual(measurements([3.5]), "Perimeter = 14.00, Area = 12.25")
 
+    def test_invalid_input(self):
+        try:
+            measurements(["hello", "world"])
+        except:
+            print("Value error raised")
+            pass
+
 if __name__ == "__main__":
     unittest.main()
 
