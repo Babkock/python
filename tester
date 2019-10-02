@@ -1,6 +1,6 @@
 #!/bin/bash
 if [ -z "$1" ]; then
-	printf "USAGE: %s [tests 1-6]\n" "$0" > /dev/stderr
+	printf "USAGE: %s [tests 1-7]\n" "$0" > /dev/stderr
 	false
 elif [ "$1" == "1" ]; then
 	pushd 2\ -\ Data\ Types\ and\ Variables > /dev/null
@@ -69,6 +69,17 @@ elif [ "$1" == "7" ]; then
 	printf "1: string_functions.py, 2: test_string_functions.py\n"
 	./test_string_functions.py
 	rm -f string_functions.py > /dev/null
+	popd > /dev/null
+	popd > /dev/null
+	true
+# don't do this one in Traivs
+elif [ "$1" == "8" ]; then
+	pushd 6\ -\ Functions > /dev/null
+	pushd Module6/validate_input_test > /dev/null
+	cp ../validate_input/validate_input_in_functions.py . > /dev/null
+	printf "1: validate_input_in_functions.py, 2: test_validate_input_in_functions.py\n"
+	./test_validate_input_in_functions
+	rm -f validate_input_in_functions.py > /dev/null
 	popd > /dev/null
 	popd > /dev/null
 	true
