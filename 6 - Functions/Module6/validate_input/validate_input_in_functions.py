@@ -26,4 +26,5 @@ def score_input(test_name, test_score=0, invalid_message="Invalid test score, tr
             get_score = int(input("Please enter a valid score: "))
             test_score = get_score
         print("{}: {}".format(test_name, test_score))
-    
+    # return { test_name : test_score }
+
