@@ -58,7 +58,17 @@ elif [ "$1" == "6" ]; then
 	cp ../input_loops/average_input_scores.py . > /dev/null
 	printf "1: average_input_scores.py, 2: test_loop.py\n"
 	./test_loop.py
-	rm -f average_input_scores.py
+	rm -f average_input_scores.py > /dev/null
+	popd > /dev/null
+	popd > /dev/null
+	true
+elif [ "$1" == "7" ]; then
+	pushd 6\ -\ Functions > /dev/null
+	pushd Module6/test_functions > /dev/null
+	cp ../more_functions/string_functions.py . > /dev/null
+	printf "1: string_functions.py, 2: test_string_functions.py\n"
+	./test_string_functions.py
+	rm -f string_functions.py > /dev/null
 	popd > /dev/null
 	popd > /dev/null
 	true
