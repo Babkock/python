@@ -1,4 +1,10 @@
 #!/usr/bin/python3
+"""
+Tanner Babcock
+October 8, 2019
+
+Module 7, topic 1: Lists
+"""
 import unittest
 from unittest.mock import patch
 from basic_list import make_list

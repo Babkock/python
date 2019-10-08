@@ -20,5 +20,5 @@ if __name__ == "__main__":
     try:
         myList = make_list()
         print("{}, {}, {}".format(myList[0], myList[1], myList[2]))
-    except:
+    except ValueError:
         print("Bad input")
