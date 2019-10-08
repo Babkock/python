@@ -10,11 +10,11 @@ def make_list():
     x = 0
     theList = [0, 0, 0]
     for x in range(0, 3):
-        theList[x] = int(input("Enter an int number: "))
+        theList[x] = get_input()
     return theList
 
 def get_input():
-    pass
+    return int(input("Enter an int number: "))
 
 if __name__ == "__main__":
     try:
