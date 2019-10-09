@@ -3,7 +3,7 @@
 Tanner Babcock
 October 8, 2019
 
-Module 7, topic 2: Tuples
+Module 7, topic 3: Files I/O
 """
 
 def average_scores(*args, **kwargs):
