@@ -1,0 +1,8 @@
+Tanner	Babcock	
+Scores:		80, 50, 40, 30, 
+Bob	Dylan	
+Scores:		90, 80, 95, 85, 
+Barack	Obama	
+Scores:		10, 40, 20, 10, 
+Barry	Bonds	
+Scores:		90, 98, 94, 95, 
