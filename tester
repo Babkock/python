@@ -1,6 +1,6 @@
 #!/bin/bash
 if [ -z "$1" ]; then
-	printf "USAGE: %s [tests 1-8]\n" "$0" > /dev/stderr
+	printf "USAGE: %s [tests 1-12]\n" "$0" > /dev/stderr
 	false
 elif [ "$1" == "1" ]; then
 	pushd 2\ -\ Data\ Types\ and\ Variables > /dev/null
@@ -99,6 +99,16 @@ elif [ "$1" == "10" ]; then
 	printf "1: set_membership.py, 2: test_set_membership.py\n"
 	./test_set_membership.py
 	rm -f set_membership.py > /dev/null
+	popd > /dev/null
+	popd > /dev/null
+	true
+elif [ "$1" == "11" ]; then
+	pushd 8\ -\ Sets\ and\ Dictionaries > /dev/null
+	pushd Module8/test > /dev/null
+	cp ../more_fun_with_collections/dict_membership.py . > /dev/null
+	printf "1: dict_membership.py, 2: test_dict_membership.py\n"
+	./test_dict_membership.py
+	rm -f dict_membership.py > /dev/null
 	popd > /dev/null
 	popd > /dev/null
 	true
