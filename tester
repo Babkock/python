@@ -82,5 +82,25 @@ elif [ "$1" == "8" ]; then
 	popd > /dev/null
 	popd > /dev/null
 	true
+elif [ "$1" == "9" ]; then
+	pushd 7\ -\ Collections > /dev/null
+	pushd Module7/test_collections > /dev/null
+	cp ../fun_with_collections/basic_list.py . > /dev/null
+	printf "1: basic_list.py, 2: test_basic_list.py\n"
+	./test_basic_list.py
+	rm -f basic_list.py > /dev/null
+	popd > /dev/null
+	popd > /dev/null
+	true
+elif [ "$1" == "10" ]; then
+	pushd 8\ -\ Sets\ and\ Dictionaries > /dev/null
+	pushd Module8/test > /dev/null
+	cp ../more_fun_with_collections/set_membership.py . > /dev/null
+	printf "1: set_membership.py, 2: test_set_membership.py\n"
+	./test_set_membership.py
+	rm -f set_membership.py > /dev/null
+	popd > /dev/null
+	popd > /dev/null
+	true
 fi
 
