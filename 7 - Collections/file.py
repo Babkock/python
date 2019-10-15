@@ -43,13 +43,16 @@ def read_from_file(name):
         raise ValueError
     file_dir = os.path.dirname(__file__)
     
-    inp = open(os.path.join(file_dir, name), "r")
-    lines = inp.read().splitlines()
+    try:
+        inp = open(os.path.join(file_dir, name), "r")
+        lines = inp.read().splitlines()
 
-    for line in lines:
-        print(line)
-    inp.close()
-    del lines
+        for line in lines:
+            print(line)
+        inp.close()
+        del lines
+    except FileNotFoundError:
+        print("File not found")
 
 if __name__ == "__main__":
     print("Entering test scores for student 1")
@@ -61,5 +64,5 @@ if __name__ == "__main__":
     print("Entering test scores for student 4")
     get_student_info(first_name="Barry", last_name="Bonds")
 
-    read_from_file("student_info.txt")
+    read_from_file("studet_info.txt")
 
