@@ -112,5 +112,15 @@ elif [ "$1" == "11" ]; then
 	popd > /dev/null
 	popd > /dev/null
 	true
+elif [ "$1" == "12" ]; then
+	pushd 8\ -\ Sets\ and\ Dictionaries > /dev/null
+	pushd Module8/test_date_time > /dev/null
+	cp ../date_time/birthday.py . > /dev/null
+	printf "1: birthday.py, 2: test_birthday.py\n"
+	./test_birthday.py
+	rm -f birthday.py > /dev/null
+	popd > /dev/null
+	popd > /dev/null
+	true
 fi
 
