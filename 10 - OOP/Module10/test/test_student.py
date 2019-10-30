@@ -14,6 +14,15 @@ class ClassTest(unittest.TestCase):
     def tearDown(self):
         del self.student
 
+    def test_object_created_required_attributes(self):
+        test = Student("Bunyan", "Paul", "Woodworking")
+
+    def test_object_created_all_attributes(self):
+        test = Student("Ruth", "Babe", "Baseball", 3.8)
+
+    def test_student_str(self):
+        print(str(self.student))
+
 if __name__ == "__main__":
     unittest.main()
 

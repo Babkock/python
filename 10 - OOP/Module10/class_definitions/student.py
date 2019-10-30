@@ -4,7 +4,7 @@ Tanner Babcock
 October 29, 2019
 Module 10, topic 3: Testing Classes
 """
-def Student:
+class Student:
     """Student class"""
     def __init__(self, lname, fname, major, gpa=0.0):
         self._last_name = lname
