@@ -23,6 +23,10 @@ class ClassTest(unittest.TestCase):
     def test_student_str(self):
         print(str(self.student))
 
+    def test_object_not_created_error_last_name(self):
+        with self.assertRaises(AttributeError):
+            test = Student(5, "Hello", "World")
+
 if __name__ == "__main__":
     unittest.main()
 
