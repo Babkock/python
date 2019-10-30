@@ -27,6 +27,18 @@ class ClassTest(unittest.TestCase):
         with self.assertRaises(AttributeError):
             test = Student(5, "Hello", "World")
 
+    def test_object_not_created_error_first_name(self):
+        with self.assertRaises(AttributeError):
+            test = Student("Hello", 5, "World")
+
+    def test_object_not_created_error_major(self):
+        with self.assertRaises(AttributeError):
+            test = Student("Hello", "World", 5)
+
+    def test_object_not_created_error_gpa(self):
+        with self.assertRaises(AttributeError):
+            test = Student("Washington", "George", "Honesty", "test")
+
 if __name__ == "__main__":
     unittest.main()
 

@@ -15,6 +15,8 @@ class Student:
             raise AttributeError("Major is not a str type")
         if (isinstance(gpa, float) != True):
             raise AttributeError("GPA is not a float type")
+        if (gpa < 0.0) or (gpa > 4.0):
+            raise AttributeError("GPA is not in the accepted range")
 
         self._last_name = lname
         self._first_name = fname
