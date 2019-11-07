@@ -81,12 +81,47 @@ class SalariedEmployee(Employee):
         return output
 
 class HourlyEmployee(Employee):
+    # Constructor
+    def __init__(self, fname, lname, addr, phone, start, hourly):
+        super().__init__(fname, lname, addr, phone)
+        if (isinstance(start, datetime.datetime) != True) and (isinstance(start, datetime.date) != True):
+            raise ValueError
+        if (isinstance(hourly, float) != True):
+            raise ValueError("The hourly_pay field for this class expects a float type")
+        
+        self._start_date = start
+        self._hourly_pay = hourly
 
+    def give_raise(self, newhourly):
+        if (isinstance(newhourly, float) != True):
+            raise ValueError("The hourly_pay field for this class expects a float type")
+
+        self._hourly_pay = newhourly
+
+    def display(self):
+        output = str(self._first_name) + " " + str(self._last_name) + "\n"
+        output += self._address + "\n"
+
+        output += "Hourly employee: ${0:.2f}/hour\n".format(self._hourly_pay)
+        output += "Start date: " + str(self._start_date) + "\n"
+        return output
 
 # Driver
 
 # call the constructor
 #emp = Employee("Steve", "Jobs", address, "212-222-2222", True, datetime.datetime.strptime("10-1-1985", "%m-%d-%Y"), 1000000)
 
+if __name__ == "__main__":
+    salary_man = SalariedEmployee("Bill", "Gates", "Seattle, Washington\nMicrosoft Land", "555-444-3333", datetime.datetime.strptime("11-6-2019", "%m-%d-%Y"), 40000)
+    hourly_man = HourlyEmployee("Dave", "Chapelle", "Los Angeles, California\nUnited States", "333-222-1111", datetime.datetime.strptime("11-6-2019", "%m-%d-%Y"), 10.00)
 
+    print(salary_man.display())
+    salary_man.give_raise(45000)
+    print(salary_man.display())
+    del salary_man
+
+    print(hourly_man.display())
+    hourly_man.give_raise(12.00)
+    print(hourly_man.display())
+    del hourly_man
 
