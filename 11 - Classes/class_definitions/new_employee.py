@@ -48,18 +48,45 @@ class Employee:
     def display(self):
         output = str(self._first_name) + " " + str(self._last_name) + "\n"
         output += self._address + "\n"
-        if self._salaried == True:
-            output += "Salaried employee: ${}/year\n".format(self._salary)
-        else:
-            output += "Hourly employee: ${0:.2f}/hour\n".format(self._salary)
+        #if self._salaried == True:
+        #    output += "Salaried employee: ${}/year\n".format(self._salary)
+        #else:
+        #    output += "Hourly employee: ${0:.2f}/hour\n".format(self._salary)
+        #output += "Start date: " + str(self._start_date) + "\n"
+        return output
+
+class SalariedEmployee(Employee):
+    # Constructor
+    def __init__(self, fname, lname, addr, phone, start, salary):
+        super().__init__(fname, lname, addr, phone)
+        if (isinstance(start, datetime.datetime) != True) and (isinstance(start, datetime.date) != True):
+            raise ValueError
+        if (isinstance(salary, int) != True):
+            raise ValueError("The salary field for this class expects an integer type")
+
+        self._start_date = start
+        self._salary = salary
+
+    def give_raise(self, newsalary):
+        if (isinstance(newsalary, int) != True):
+            raise ValueError("The salary field for this class expects an integer type")
+        self._salary = newsalary
+
+    def display(self):
+        output = str(self._first_name) + " " + str(self._last_name) + "\n"
+        output += self._address + "\n"
+        
+        output += "Salaried employee: ${}/year\n".format(self._salary)
         output += "Start date: " + str(self._start_date) + "\n"
         return output
 
-# Driver
-address = "1 Infinite Loop\nCupertino, CA"
-# call the constructor
-emp = Employee("Steve", "Jobs", address, "212-222-2222", True, datetime.datetime.strptime("10-1-1985", "%m-%d-%Y"), 1000000)
+class HourlyEmployee(Employee):
 
-print(emp.display())    # display() returns a str
-del emp
+
+# Driver
+
+# call the constructor
+#emp = Employee("Steve", "Jobs", address, "212-222-2222", True, datetime.datetime.strptime("10-1-1985", "%m-%d-%Y"), 1000000)
+
+
 
