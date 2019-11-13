@@ -1,6 +1,6 @@
 #!/bin/bash
 if [ -z "$1" ]; then
-	printf "USAGE: %s [tests 1-13]\n" "$0" > /dev/stderr
+	printf "USAGE: %s [tests 1-14]\n" "$0" > /dev/stderr
 	false
 elif [ "$1" == "1" ]; then
 	pushd 2\ -\ Data\ Types\ and\ Variables > /dev/null
@@ -129,6 +129,16 @@ elif [ "$1" == "13" ]; then
 	printf "1: student.py, 2: test_student.py\n"
 	./test_student.py
 	rm -f student.py > /dev/null
+	popd > /dev/null
+	popd > /dev/null
+	true
+elif [ "$1" == "14" ]; then
+	pushd 12\ -\ Abstraction > /dev/null
+	pushd Module12/test_custom_exceptions > /dev/null
+	cp ../custom_exceptions/customer_exceptions.py . > /dev/null
+	printf "1: customer_exceptions.py, 2: test_customer_exceptions.py\n"
+	./test_customer_exceptions.py
+	rm -f customer_exceptions.py > /dev/null
 	popd > /dev/null
 	popd > /dev/null
 	true

@@ -18,4 +18,5 @@ script:
     - ./tester 10
     - ./tester 11
     - ./tester 12
-
+    - ./tester 13
+    - ./tester 14
