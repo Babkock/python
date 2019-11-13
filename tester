@@ -142,5 +142,15 @@ elif [ "$1" == "14" ]; then
 	popd > /dev/null
 	popd > /dev/null
 	true
+elif [ "$1" == "15" ]; then
+	pushd 12\ -\ Abstraction > /dev/null
+	pushd Module12/test_shape > /dev/null
+	cp ../shape/shape.py . > /dev/null
+	printf "1: shape.py, 2: test_shape.py\n"
+	./test_shape.py
+	rm -f shape.py > /dev/null
+	popd > /dev/null
+	popd > /dev/null
+	true
 fi
 
