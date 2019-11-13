@@ -17,8 +17,6 @@ class Employee:
             raise ValueError
         if (isinstance(phone, str) != True):
             raise ValueError
-        #if (isinstance(start, datetime.datetime) != True) and (isinstance(start, datetime.date) != True):
-        #    raise ValueError
 
         self._last_name = lname
         self._first_name = fname
@@ -48,11 +46,7 @@ class Employee:
     def display(self):
         output = str(self._first_name) + " " + str(self._last_name) + "\n"
         output += self._address + "\n"
-        #if self._salaried == True:
-        #    output += "Salaried employee: ${}/year\n".format(self._salary)
-        #else:
-        #    output += "Hourly employee: ${0:.2f}/hour\n".format(self._salary)
-        #output += "Start date: " + str(self._start_date) + "\n"
+
         return output
 
 class SalariedEmployee(Employee):
@@ -108,20 +102,20 @@ class HourlyEmployee(Employee):
 
 # Driver
 
-# call the constructor
-#emp = Employee("Steve", "Jobs", address, "212-222-2222", True, datetime.datetime.strptime("10-1-1985", "%m-%d-%Y"), 1000000)
-
 if __name__ == "__main__":
-    salary_man = SalariedEmployee("Bill", "Gates", "Seattle, Washington\nMicrosoft Land", "555-444-3333", datetime.datetime.strptime("11-6-2019", "%m-%d-%Y"), 40000)
-    hourly_man = HourlyEmployee("Dave", "Chapelle", "Los Angeles, California\nUnited States", "333-222-1111", datetime.datetime.strptime("11-6-2019", "%m-%d-%Y"), 10.00)
+    try:
+        salary_man = SalariedEmployee("Bill", "Gates", "Seattle, Washington\nMicrosoft Land", "555-444-3333", datetime.datetime.strptime("11-6-2019", "%m-%d-%Y"), 40000)
+        hourly_man = HourlyEmployee("Dave", "Chapelle", "Los Angeles, California\nUnited States", "333-222-1111", datetime.datetime.strptime("11-6-2019", "%m-%d-%Y"), 10.00)
 
-    print(salary_man.display())
-    salary_man.give_raise(45000)
-    print(salary_man.display())
-    del salary_man
+        print(salary_man.display())
+        salary_man.give_raise(45000)
+        print(salary_man.display())
+        del salary_man
 
-    print(hourly_man.display())
-    hourly_man.give_raise(12.00)
-    print(hourly_man.display())
-    del hourly_man
+        print(hourly_man.display())
+        hourly_man.give_raise(12.00)
+        print(hourly_man.display())
+        del hourly_man
+    except ValueError:
+        print("Bad input")
 
