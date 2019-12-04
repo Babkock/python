@@ -5,6 +5,7 @@ GUI Calculator Final Project
 """
 import tkinter
 import tkinter.font as font
+import decimal
 
 class Operation:
     def __init__(self, op, value):
@@ -39,12 +40,20 @@ class Calculator:
                 if (isinstance(self.current_buffer, float)) or (isinstance(self.history[-1].value, float)):
                     self.current_buffer = float(self.history[-1].value) - float(self.current_buffer)
                 else:
-                    self.current_buffer -= (self.history[-1].value * -1)
+                    self.current_buffer = self.history[-1].value - self.current_buffer
 
             elif self.history[-1].op == '*':
-                self.current_buffer *= self.history[-1].value
+                if (isinstance(self.current_buffer, float)) or (isinstance(self.history[-1].value, float)):
+                    self.current_buffer = float(self.current_buffer) * float(self.history[-1].value)
+                else:
+                    self.current_buffer *= self.history[-1].value
+
             elif self.history[-1].op == '/':
-                self.current_buffer /= self.history[-1].value
+                if (isinstance(self.current_buffer, float)) or (isinstance(self.history[-1].value, float)):
+                    self.current_buffer = float(self.history[-1].value) / float(self.current_buffer)
+                else:
+                    self.current_buffer = self.history[-1].value / self.current_buffer
+
             del self.history[-1]
         if self.current_buffer >= 1000:
             self.places_front = 4
@@ -55,13 +64,10 @@ class Calculator:
         elif self.current_buffer >= 1:
             self.places_front = 1
 
-        if isinstance(self.current_buffer, float):
-            if (self.current_buffer % 0.001) != 0:
-                self.places_back = 2
-            elif (self.current_buffer % 0.01) != 0:
-                self.places_back = 1
-            elif (self.current_buffer % 0.1) != 0:
-                self.places_back = 0
+        #if isinstance(self.current_buffer, float):
+        #    d = decimal.Decimal(str(self.current_buffer))
+        #    print(d.as_tuple().exponent)
+        #    self.places_back = (d.as_tuple().exponent * -1)
 
     def precision(self):
         if self.places_back == 0:
