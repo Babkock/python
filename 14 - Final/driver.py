@@ -5,8 +5,10 @@ GUI Calculator Final Project
 """
 import tkinter
 import tkinter.font as font
+import decimal
 from calculator import Operation
 from calculator import Calculator
+#from calculator import decimal_places
 
 calc = Calculator()
 period_used = False
@@ -15,8 +17,11 @@ thefont = "Ubuntu Mono"
 
 # This function is the callback for all of the keys
 def add_multiple_to_buffer(val):
+    if isinstance(val, int) != True:
+        raise ValueError("add_multiple_to_buffer() argument should be int type")
     if (val > 9) or (val < 0):
-        raise ValueError("add_multiple_to_buffer argument is out of range")
+        raise ValueError("add_multiple_to_buffer() argument is out of range")
+
     # val is a number 0-9
     if calc.current_buffer == 0:
         if val == 0:
@@ -32,43 +37,14 @@ def add_multiple_to_buffer(val):
             calc.current_buffer = multiple + val
 
 def add_number_after_period(val):
+    if isinstance(val, int) != True:
+        raise ValueError("add_number_after_period() argument should be int type")
     if (val > 9) or (val < 0):
-        raise ValueError("add_number_after_period argument is out of range")
+        raise ValueError("add_number_after_period() argument is out of range")
     
-    if calc.places_back == 1:
-        calc.places_back += 1
-        calc.current_buffer += (val * 0.1)
-    elif calc.places_back == 2:
-        if val == 0:
-            calc.places_back += 1
-            calc.current_buffer *= 1.00
-        else:
-            calc.places_back += 1
-            calc.current_buffer += (val * 0.01)
-    elif calc.places_back == 3:
-        if val == 0:
-            calc.places_back += 1
-            calc.current_buffer *= 1.000
-        else:
-            calc.places_back += 1
-            calc.current_buffer += (val * 0.001)
-    elif calc.places_back == 4:
-        if val == 0:
-            calc.places_back += 1
-            calc.current_buffer *= 1.0000
-        else:
-            calc.places_back += 1
-            calc.current_buffer += (val * 0.0001)
-    elif calc.places_back == 5:
-        if val == 0:
-            calc.places_back += 1
-            calc.current_buffer *= 1.00000
-        else:
-            calc.places_back += 1
-            calc.current_buffer += (val * 0.00001)
-    else:
-        raise ValueError("Buffer too big")
-
+    calc.current_buffer += (val * pow(10, (calc.places_back * -1)))
+    calc.places_back += 1 
+    
 if __name__ == "__main__":
     m = tkinter.Tk() 
     m.title("Calculator")
@@ -90,8 +66,8 @@ if __name__ == "__main__":
 
     last_result = 0
     current = tkinter.Label(top_frame, text='0', width=14, height=3, fg="#efefef", bg="#101010", font=(thefont, 22))
-    precision = calc.precision()
-    current.configure(text=("{0:." + str(precision) + "f}").format(calc.current_buffer))
+    
+    current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer))
     current.pack()
     current.bind("<Button-1>", clear_buffer)
 
@@ -110,27 +86,22 @@ if __name__ == "__main__":
             last_result = 0
             period_used = False
 
-        if (calc.places_front > 6) or (calc.places_back > 5):
-            raise ValueError("Buffer too big")
         if period_used == True:
             add_number_after_period(val)
         else:
             add_multiple_to_buffer(val)
         
-        precision = calc.precision()
-        current.configure(text=("{0:." + str(precision) + "f}").format(calc.current_buffer)) 
+        current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer)) 
 
     def press_equals():
         global last_result
         calc.equals()
         last_result = calc.current_buffer
-        #calc.places_front = 1
-        #calc.places_back = 0
-        #if isinstance(calc.current_buffer, float):
-        precision = calc.precision()
-        current.configure(text=("{0:." + str(precision) + "f}").format(calc.current_buffer))
-        #else:
-        #    current.configure(text="{}".format(calc.current_buffer))
+        d = decimal.Decimal(str(calc.current_buffer))
+        calc.places_front = (len(d.as_tuple().digits) + d.as_tuple().exponent)
+        calc.places_back = (d.as_tuple().exponent * -1)
+        
+        current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer))
 
     def period():
         global period_used
@@ -139,28 +110,23 @@ if __name__ == "__main__":
             calc.current_buffer = float(calc.current_buffer * 1.0)
             calc.places_back = 1
         
-        precision = calc.precision()
-        current.configure(text=("{0:." + str(precision) + "f}").format(calc.current_buffer))
+        current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer))
 
     def plus():
         calc.add_operation(Operation('+', calc.current_buffer))
-        precision = calc.precision()
-        current.configure(text=("{0:." + str(precision) + "f}").format(calc.current_buffer))
+        current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer))
 
     def minus():
         calc.add_operation(Operation('-', calc.current_buffer))
-        precision = calc.precision()
-        current.configure(text=("{0:." + str(precision) + "f}").format(calc.current_buffer))
+        current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer))
 
     def times():
         calc.add_operation(Operation('*', calc.current_buffer))
-        precision = calc.precision()
-        current.configure(text=("{0:." + str(precision) + "f}").format(calc.current_buffer))
+        current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer))
 
     def divide():
         calc.add_operation(Operation('/', calc.current_buffer))
-        precision = calc.precision()
-        current.configure(text=("{0:." + str(precision) + "f}").format(calc.current_buffer))
+        current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer))
 
     add = tkinter.Button(bottom_frame, text=' + ', bd=0, width=2, height=2, fg="#561410", bg="#bd5054", activeforeground="#571b18", activebackground="#c35b58", font=(thefont, 22), command=plus).grid(row=2, column=4)
     button9 = tkinter.Button(bottom_frame, text=' 9 ', bd=0, width=2, height=2, fg="#ffffff", bg="#000000", activeforeground="#eed92f", activebackground="#131313", font=(thefont, 22), command=lambda: press_number(9)).grid(row=2, column=3)

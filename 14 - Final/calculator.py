@@ -7,25 +7,27 @@ import tkinter
 import tkinter.font as font
 import decimal
 
+# An operation in the Calculator's history
 class Operation:
     def __init__(self, op, value):
         if isinstance(op, str) != True:
-            raise ValueError
+            raise ValueError("op argument should be str type")
         if (isinstance(value, int) != True) and (isinstance(value, float) != True):
-            raise ValueError
+            raise ValueError("value argument should be an int or float type")
         self.op = op
         self.value = value
 
+# A Calculator class - has a history and a current buffer, and it keeps track of decimal places
 class Calculator:
     def __init__(self):
-        self.current_buffer = 0
-        self.history = list()
-        self.places_front = 1
-        self.places_back = 0
+        self.current_buffer = 0 # The currently displayed value
+        self.history = list()   # A list of Operations needed for the current equation
+        self.places_front = 1   # Decimal places in front of the period
+        self.places_back = 0    # Decimal places behind the decimal
 
     def add_operation(self, op):
         if isinstance(op, Operation) != True:
-            raise ValueError
+            raise ValueError("add_operation() expects an Operation type argument")
         self.history.append(op)
 
     def equals(self):
@@ -55,25 +57,9 @@ class Calculator:
                     self.current_buffer = self.history[-1].value / self.current_buffer
 
             del self.history[-1]
-        if self.current_buffer >= 1000:
-            self.places_front = 4
-        elif self.current_buffer >= 100:
-            self.places_front = 3
-        elif self.current_buffer >= 10:
-            self.places_front = 2
-        elif self.current_buffer >= 1:
-            self.places_front = 1
-
-        #if isinstance(self.current_buffer, float):
-        #    d = decimal.Decimal(str(self.current_buffer))
-        #    print(d.as_tuple().exponent)
-        #    self.places_back = (d.as_tuple().exponent * -1)
-
-    def precision(self):
-        if self.places_back == 0:
-            return 0
-        elif self.places_back == 1:
-            return 1
-        else:
-            return self.places_back - 1
+        
+        d = decimal.Decimal(str(self.current_buffer))
+        self.places_front = (len(d.as_tuple().digits) + d.as_tuple().exponent)
+        if isinstance(self.current_buffer, float):
+            self.places_back = (d.as_tuple().exponent * -1)
 
