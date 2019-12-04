@@ -57,18 +57,18 @@ class Calculator:
         self.history.append(op)
 
     def equals(self):
-        while len(self.history) > 0:
+        try:
+            while len(self.history) > 0:
             # Here is where we actually do the math. self.history is a list of Operations, op and value pairs.
             # Using this we can compute complex operations like (1 + 2 + 3 = 6) and (1 + 3 * 3 = 10)
             # In each loop iteration, I access the last element of the history, then
             # compute it using its operation, with the currently displayed number
             # as its operand
-            if self.history[-1].op == '+':
-                if (isinstance(self.current_buffer, float)) or (isinstance(self.history[-1].value, float)):
-                    self.current_buffer = float(self.current_buffer) + float(self.history[-1].value)
-                else:
-                    self.current_buffer += self.history[-1].value
-            
+                if self.history[-1].op == '+':
+                    if (isinstance(self.current_buffer, float)) or (isinstance(self.history[-1].value, float)):
+                        self.current_buffer = float(self.current_buffer) + float(self.history[-1].value)
+                    else:
+                        self.current_buffer += self.history[-1].value
             # Assume float conversion if either of the operands are floats,
             # otherwise they will turn out as ints
             # plus:
@@ -85,28 +85,31 @@ class Calculator:
             # divide:
             # current_buffer = history[-1].value / current_buffer
 
-            elif self.history[-1].op == '-':
-                if (isinstance(self.current_buffer, float)) or (isinstance(self.history[-1].value, float)):
-                    self.current_buffer = float(self.history[-1].value) - float(self.current_buffer)
-                else:
-                    self.current_buffer = self.history[-1].value - self.current_buffer
+                elif self.history[-1].op == '-':
+                    if (isinstance(self.current_buffer, float)) or (isinstance(self.history[-1].value, float)):
+                        self.current_buffer = float(self.history[-1].value) - float(self.current_buffer)
+                    else:
+                        self.current_buffer = self.history[-1].value - self.current_buffer
 
-            elif self.history[-1].op == '*':
-                if (isinstance(self.current_buffer, float)) or (isinstance(self.history[-1].value, float)):
-                    self.current_buffer = float(self.current_buffer) * float(self.history[-1].value)
-                else:
-                    self.current_buffer *= self.history[-1].value
+                elif self.history[-1].op == '*':
+                    if (isinstance(self.current_buffer, float)) or (isinstance(self.history[-1].value, float)):
+                        self.current_buffer = float(self.current_buffer) * float(self.history[-1].value)
+                    else:
+                        self.current_buffer *= self.history[-1].value
 
-            elif self.history[-1].op == '/':
-                if (isinstance(self.current_buffer, float)) or (isinstance(self.history[-1].value, float)):
-                    self.current_buffer = float(self.history[-1].value) / float(self.current_buffer)
-                else:
-                    self.current_buffer = self.history[-1].value / self.current_buffer
+                elif self.history[-1].op == '/':
+                    if (isinstance(self.current_buffer, float)) or (isinstance(self.history[-1].value, float)):
+                        self.current_buffer = float(self.history[-1].value) / float(self.current_buffer)
+                    else:
+                        self.current_buffer = self.history[-1].value / self.current_buffer
 
-            del self.history[-1]
-        
-        d = decimal.Decimal(str(self.current_buffer))
-        self.places_front = (len(d.as_tuple().digits) + d.as_tuple().exponent)
-        if isinstance(self.current_buffer, float):
-            self.places_back = (d.as_tuple().exponent * -1)
-
+                del self.history[-1]
+            
+            d = decimal.Decimal(str(self.current_buffer))
+            self.places_front = (len(d.as_tuple().digits) + d.as_tuple().exponent)
+            if isinstance(self.current_buffer, float):
+                self.places_back = (d.as_tuple().exponent * -1)
+        except ZeroDivisionError:
+            self.current_buffer = -1
+            self.places_front = 1
+            self.places_back = 0

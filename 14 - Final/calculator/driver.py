@@ -6,13 +6,11 @@ GUI Calculator Final Project
 import tkinter
 import tkinter.font as font
 import decimal
-from calculator import Operation
 from calculator import Add
 from calculator import Subtract
 from calculator import Multiply
 from calculator import Divide
 from calculator import Calculator
-#from calculator import decimal_places
 
 calc = Calculator()
 period_used = False
@@ -20,34 +18,41 @@ last_result = 0
 thefont = "Ubuntu Mono"
 
 # This function is the callback for all of the keys
-def add_multiple_to_buffer(val):
+def add_multiple_to_buffer(val, cobject):
+    
     if isinstance(val, int) != True:
         raise ValueError("add_multiple_to_buffer() argument should be int type")
     if (val > 9) or (val < 0):
         raise ValueError("add_multiple_to_buffer() argument is out of range")
 
     # val is a number 0-9
-    if calc.current_buffer == 0:
+    if cobject.current_buffer == 0:
         if val == 0:
-            calc.current_buffer = 0
+            cobject.current_buffer = 0
         else:
-            calc.current_buffer = val
+            cobject.current_buffer = val
     else:
-        calc.places_front += 1
-        if val == 0:
-            calc.current_buffer *= 10
-        else:
-            multiple = calc.current_buffer * 10
-            calc.current_buffer = multiple + val
+        if cobject.places_front > 6:
+            cobject.current_buffer = 999999.999
 
-def add_number_after_period(val):
+        cobject.places_front += 1
+        if val == 0:
+            cobject.current_buffer *= 10
+        else:
+            multiple = cobject.current_buffer * 10
+            cobject.current_buffer = multiple + val
+
+def add_number_after_period(val, cobject):
     if isinstance(val, int) != True:
         raise ValueError("add_number_after_period() argument should be int type")
     if (val > 9) or (val < 0):
         raise ValueError("add_number_after_period() argument is out of range")
     
-    calc.current_buffer += (val * pow(10, (calc.places_back * -1)))
-    calc.places_back += 1 
+    # You can "shift" a decimal around a number by multiplying it by ten
+    # to the (positive or negative) nth power
+    # 3.1415 * (10^3) = 3141.5
+    cobject.current_buffer += (val * pow(10, (cobject.places_back * -1)))
+    cobject.places_back += 1 
     
 if __name__ == "__main__":
     m = tkinter.Tk() 
@@ -87,6 +92,7 @@ if __name__ == "__main__":
                 calc.current_buffer = 0
                 calc.places_front = 1
                 calc.places_back = 0
+                period_used = False
         if last_result == calc.current_buffer:
             calc.current_buffer = 0
             calc.places_front = 1
@@ -95,15 +101,18 @@ if __name__ == "__main__":
             period_used = False
 
         if period_used == True:
-            add_number_after_period(val)
+            add_number_after_period(val, calc)
         else:
-            add_multiple_to_buffer(val)
+            add_multiple_to_buffer(val, calc)
        
         if calc.places_back > 6:
             calc.current_buffer = float("{0:.6f}".format(str(calc.current_buffer)))
 
         current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer)) 
 
+    # This inner function is exactly what happens when the equals button is
+    # pressed. Calculator has an equals() method which is called, 
+    # and then this outer method handles the places 
     def press_equals():
         global last_result
         calc.equals()
@@ -114,6 +123,7 @@ if __name__ == "__main__":
         
         if calc.places_back > 6:
             current.configure(text="{0:.6f}".format(calc.current_buffer))
+            calc.current_buffer = float("{0:.6f}".format(calc.current_buffer))
         else:
             current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer))
 
@@ -137,15 +147,15 @@ if __name__ == "__main__":
         current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer))
 
     def minus():
-        calc.add_operation(Operation('-', calc.current_buffer))
+        calc.add_operation(Subtract(calc.current_buffer))
         current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer))
 
     def times():
-        calc.add_operation(Operation('*', calc.current_buffer))
+        calc.add_operation(Multiply(calc.current_buffer))
         current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer))
 
     def divide():
-        calc.add_operation(Operation('/', calc.current_buffer))
+        calc.add_operation(Divide(calc.current_buffer))
         current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer))
 
     # It gets pretty ugly here but that is what makes it look good
