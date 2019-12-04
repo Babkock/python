@@ -7,6 +7,10 @@ import tkinter
 import tkinter.font as font
 import decimal
 from calculator import Operation
+from calculator import Add
+from calculator import Subtract
+from calculator import Multiply
+from calculator import Divide
 from calculator import Calculator
 #from calculator import decimal_places
 
@@ -69,8 +73,12 @@ if __name__ == "__main__":
     
     current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer))
     current.pack()
+    # Clear the displayed number and history when the number itself is clicked
     current.bind("<Button-1>", clear_buffer)
 
+    # This inner function determines if the current buffer was recently saved
+    # in the history, and should be discarded. Then, it sends the int literal val to
+    # either add_multiple_to_buffer(), or add_number_after_period()
     def press_number(val):
         global last_result
         global period_used
@@ -90,7 +98,10 @@ if __name__ == "__main__":
             add_number_after_period(val)
         else:
             add_multiple_to_buffer(val)
-        
+       
+        if calc.places_back > 6:
+            calc.current_buffer = float("{0:.6f}".format(str(calc.current_buffer)))
+
         current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer)) 
 
     def press_equals():
@@ -101,19 +112,28 @@ if __name__ == "__main__":
         calc.places_front = (len(d.as_tuple().digits) + d.as_tuple().exponent)
         calc.places_back = (d.as_tuple().exponent * -1)
         
-        current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer))
+        if calc.places_back > 6:
+            current.configure(text="{0:.6f}".format(calc.current_buffer))
+        else:
+            current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer))
 
     def period():
         global period_used
         if period_used == False:
             period_used = True
-            calc.current_buffer = float(calc.current_buffer * 1.0)
-            calc.places_back = 1
+            if calc.current_buffer == 0:
+                calc.current_buffer = 0.0
+                calc.places_front = 1
+                calc.places_back = 1
+            else:
+                calc.current_buffer = float(calc.current_buffer * 1.0)
+                calc.places_back = 1
         
         current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer))
 
     def plus():
-        calc.add_operation(Operation('+', calc.current_buffer))
+        #calc.add_operation(Operation('+', calc.current_buffer))
+        calc.add_operation(Add(calc.current_buffer))
         current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer))
 
     def minus():
@@ -128,6 +148,7 @@ if __name__ == "__main__":
         calc.add_operation(Operation('/', calc.current_buffer))
         current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer))
 
+    # It gets pretty ugly here but that is what makes it look good
     add = tkinter.Button(bottom_frame, text=' + ', bd=0, width=2, height=2, fg="#561410", bg="#bd5054", activeforeground="#571b18", activebackground="#c35b58", font=(thefont, 22), command=plus).grid(row=2, column=4)
     button9 = tkinter.Button(bottom_frame, text=' 9 ', bd=0, width=2, height=2, fg="#ffffff", bg="#000000", activeforeground="#eed92f", activebackground="#131313", font=(thefont, 22), command=lambda: press_number(9)).grid(row=2, column=3)
     button8 = tkinter.Button(bottom_frame, text=' 8 ', bd=0, width=2, height=2, fg="#ffffff", bg="#000000", activeforeground="#eed92f", activebackground="#131313", font=(thefont, 22), command=lambda: press_number(8)).grid(row=2, column=2)
