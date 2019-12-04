@@ -96,6 +96,7 @@ if __name__ == "__main__":
 
     def press_number(val):
         global last_result
+        global period_used
         if len(calc.history) > 0:
             if calc.history[-1].value == calc.current_buffer:
                 calc.current_buffer = 0
@@ -106,6 +107,7 @@ if __name__ == "__main__":
             calc.places_front = 1
             calc.places_back = 0
             last_result = 0
+            period_used = False
 
         if (calc.places_front > 6) or (calc.places_back > 5):
             raise ValueError("Buffer too big")
@@ -121,11 +123,13 @@ if __name__ == "__main__":
         global last_result
         calc.equals()
         last_result = calc.current_buffer
-        if isinstance(calc.current_buffer, float):
-            precision = calc.precision()
-            current.configure(text=("{0:." + str(precision) + "f}").format(calc.current_buffer))
-        else:
-            current.configure(text="{}".format(calc.current_buffer))
+        #calc.places_front = 1
+        #calc.places_back = 0
+        #if isinstance(calc.current_buffer, float):
+        precision = calc.precision()
+        current.configure(text=("{0:." + str(precision) + "f}").format(calc.current_buffer))
+        #else:
+        #    current.configure(text="{}".format(calc.current_buffer))
 
     def period():
         global period_used
