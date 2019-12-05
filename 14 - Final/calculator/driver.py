@@ -66,9 +66,7 @@ if __name__ == "__main__":
 
     def clear_buffer(event):
         global period_used
-        calc.current_buffer = 0
-        calc.places_front = 1
-        calc.places_back = 0
+        calc.buffer_front_back(0, 1, 0)
         calc.history = list()
         current.configure(text="{}".format(calc.current_buffer))
         period_used = False
@@ -89,14 +87,10 @@ if __name__ == "__main__":
         global period_used
         if len(calc.history) > 0:
             if calc.history[-1].value == calc.current_buffer:
-                calc.current_buffer = 0
-                calc.places_front = 1
-                calc.places_back = 0
+                calc.buffer_front_back(0, 1, 0)
                 period_used = False
         if last_result == calc.current_buffer:
-            calc.current_buffer = 0
-            calc.places_front = 1
-            calc.places_back = 0
+            calc.buffer_front_back(0, 1, 0)
             last_result = 0
             period_used = False
 
@@ -105,6 +99,8 @@ if __name__ == "__main__":
         else:
             add_multiple_to_buffer(val, calc)
        
+        print(calc)
+
         if calc.places_back > 6:
             calc.current_buffer = float("{0:.6f}".format(str(calc.current_buffer)))
 
@@ -132,9 +128,7 @@ if __name__ == "__main__":
         if period_used == False:
             period_used = True
             if calc.current_buffer == 0:
-                calc.current_buffer = 0.0
-                calc.places_front = 1
-                calc.places_back = 1
+                calc.buffer_front_back(0.0, 1, 1)
             else:
                 calc.current_buffer = float(calc.current_buffer * 1.0)
                 calc.places_back = 1
@@ -142,7 +136,6 @@ if __name__ == "__main__":
         current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer))
 
     def plus():
-        #calc.add_operation(Operation('+', calc.current_buffer))
         calc.add_operation(Add(calc.current_buffer))
         current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer))
 

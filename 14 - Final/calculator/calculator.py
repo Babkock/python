@@ -110,6 +110,22 @@ class Calculator:
             if isinstance(self.current_buffer, float):
                 self.places_back = (d.as_tuple().exponent * -1)
         except ZeroDivisionError:
-            self.current_buffer = -1
-            self.places_front = 1
-            self.places_back = 0
+            self.buffer_front_back(-1, 1, 0)
+
+    def buffer_front_back(self, buf, fron, back):
+        if (isinstance(buf, float) != True) and (isinstance(buf, int) != True):
+            raise ValueError
+        if (isinstance(fron, int) != True) or (isinstance(back, int) != True):
+            raise ValueError
+        self.current_buffer = buf
+        self.places_front = fron
+        self.places_back = back
+
+    def __str__(self):
+        output = ""
+        output += str(self.history)
+        output += "\n"
+        output += str(self.current_buffer)
+        output += "\n"
+        return output
+
