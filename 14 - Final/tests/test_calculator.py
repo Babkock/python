@@ -5,8 +5,6 @@ GUI Calculator Final Project
 """
 import unittest
 import decimal
-from driver import add_multiple_to_buffer
-from driver import add_number_after_period
 from calculator import Add
 from calculator import Subtract
 from calculator import Multiply
@@ -46,6 +44,11 @@ class CalculatorTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             newcalc = Calculator()
             newcalc.buffer_front_back("hey", 5, 2)
+
+    def test_buffer_front_back(self):
+        with self.assertRaises(ValueError):
+            newcalc = Calculator()
+            newcalc.buffer_front_back(5.5, 2.2, 6)
 
     def test_divide_by_zero(self):
         newcalc = Calculator()

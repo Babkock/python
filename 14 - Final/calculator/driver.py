@@ -32,14 +32,12 @@ def add_multiple_to_buffer(val, cobject):
         else:
             cobject.current_buffer = val
     else:
-        if cobject.places_front > 6:
-            cobject.current_buffer = 999999.999
-
-        cobject.places_front += 1
-        if val == 0:
-            cobject.current_buffer *= 10
-        else:
-            multiple = cobject.current_buffer * 10
+        if cobject.places_front < 7:
+            cobject.places_front += 1
+            if val == 0:
+                cobject.current_buffer *= 10
+            else:
+                multiple = cobject.current_buffer * 10
             cobject.current_buffer = multiple + val
 
 def add_number_after_period(val, cobject):
@@ -51,8 +49,9 @@ def add_number_after_period(val, cobject):
     # You can "shift" a decimal around a number by multiplying it by ten
     # to the (positive or negative) nth power
     # 3.1415 * (10^3) = 3141.5
-    cobject.current_buffer += (val * pow(10, (cobject.places_back * -1)))
-    cobject.places_back += 1 
+    if cobject.places_back < 6:
+        cobject.current_buffer += (val * pow(10, (cobject.places_back * -1)))
+        cobject.places_back += 1 
     
 if __name__ == "__main__":
     m = tkinter.Tk() 
@@ -102,9 +101,9 @@ if __name__ == "__main__":
         print(calc)
 
         if calc.places_back > 6:
-            calc.current_buffer = float("{0:.6f}".format(str(calc.current_buffer)))
+            calc.current_buffer = float("{0:.6f}".format(calc.current_buffer))
 
-        current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer)) 
+        current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer))
 
     # This inner function is exactly what happens when the equals button is
     # pressed. Calculator has an equals() method which is called, 

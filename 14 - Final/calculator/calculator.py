@@ -15,12 +15,18 @@ class Operation():
         self.op = op
         self.value = value
 
+    def __str__(self):
+        return "{} : {}".format(self.op, self.value)
+
 class Add(Operation):
     def __init__(self, value):
         if (isinstance(value, int) != True) and (isinstance(value, float) != True):
             raise ValueError("value argument should be an int or float type")
 
         Operation.__init__(self, '+', value)
+
+    def __str__(self):
+        return "Add: {}".format(self.value)
 
 class Subtract(Operation):
     def __init__(self, value):
@@ -29,6 +35,9 @@ class Subtract(Operation):
 
         Operation.__init__(self, '-', value)
 
+    def __str__(self):
+        return "Subtract: {}".format(self.value)
+
 class Multiply(Operation):
     def __init__(self, value):
         if (isinstance(value, int) != True) and (isinstance(value, float) != True):
@@ -36,12 +45,18 @@ class Multiply(Operation):
 
         Operation.__init__(self, '*', value)
 
+    def __str__(self):
+        return "Multiply: {}".format(self.value)
+
 class Divide(Operation):
     def __init__(self, value):
         if (isinstance(value, int) != True) and (isinstance(value, float) != True):
             raise ValueError("value argument should be an int or float type")
 
         Operation.__init__(self, '/', value)
+
+    def __str__(self):
+        return "Divide: {}".format(self.value)
 
 # A Calculator class - has a history and a current buffer, and it keeps track of decimal places
 class Calculator:
@@ -103,6 +118,9 @@ class Calculator:
                     else:
                         self.current_buffer = self.history[-1].value / self.current_buffer
 
+                    self.current_buffer = str(self.current_buffer)
+                    self.current_buffer = float(self.current_buffer)
+
                 del self.history[-1]
             
             d = decimal.Decimal(str(self.current_buffer))
@@ -114,18 +132,18 @@ class Calculator:
 
     def buffer_front_back(self, buf, fron, back):
         if (isinstance(buf, float) != True) and (isinstance(buf, int) != True):
-            raise ValueError
+            raise ValueError("buffer_front_back() expects a float or int for the buffer argument")
         if (isinstance(fron, int) != True) or (isinstance(back, int) != True):
-            raise ValueError
+            raise ValueError("buffer_front_back() expects an int for front and back arguments")
         self.current_buffer = buf
         self.places_front = fron
         self.places_back = back
 
     def __str__(self):
         output = ""
-        output += str(self.history)
-        output += "\n"
-        output += str(self.current_buffer)
+        output += "Current buffer: {}\n".format(self.current_buffer)
+        for x in self.history:
+            print(x)
         output += "\n"
         return output
 
