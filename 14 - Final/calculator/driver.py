@@ -11,19 +11,19 @@ from calculator import Subtract
 from calculator import Multiply
 from calculator import Divide
 from calculator import Calculator
+from calculator import CalculatorDivideError
+from calculator import CalculatorInputError
 
-calc = Calculator()
 period_used = False
 last_result = 0
 thefont = "Ubuntu Mono"
 
 # This function is the callback for all of the keys
 def add_multiple_to_buffer(val, cobject):
-    
     if isinstance(val, int) != True:
-        raise ValueError("add_multiple_to_buffer() argument should be int type")
+        raise CalculatorInputError("add_multiple_to_buffer() argument should be int type")
     if (val > 9) or (val < 0):
-        raise ValueError("add_multiple_to_buffer() argument is out of range")
+        raise CalculatorInputError("add_multiple_to_buffer() argument is out of range")
 
     # val is a number 0-9
     if cobject.current_buffer == 0:
@@ -38,13 +38,13 @@ def add_multiple_to_buffer(val, cobject):
                 cobject.current_buffer *= 10
             else:
                 multiple = cobject.current_buffer * 10
-            cobject.current_buffer = multiple + val
+                cobject.current_buffer = multiple + val
 
 def add_number_after_period(val, cobject):
     if isinstance(val, int) != True:
-        raise ValueError("add_number_after_period() argument should be int type")
+        raise CalculatorInputError("add_number_after_period() argument should be int type")
     if (val > 9) or (val < 0):
-        raise ValueError("add_number_after_period() argument is out of range")
+        raise CalculatorInputError("add_number_after_period() argument is out of range")
     
     # You can "shift" a decimal around a number by multiplying it by ten
     # to the (positive or negative) nth power
@@ -70,6 +70,7 @@ if __name__ == "__main__":
         current.configure(text="{}".format(calc.current_buffer))
         period_used = False
 
+    calc = Calculator()
     last_result = 0
     current = tkinter.Label(top_frame, text='0', width=14, height=3, fg="#efefef", bg="#101010", font=(thefont, 22))
     
@@ -97,9 +98,7 @@ if __name__ == "__main__":
             add_number_after_period(val, calc)
         else:
             add_multiple_to_buffer(val, calc)
-       
         print(calc)
-
         if calc.places_back > 6:
             calc.current_buffer = float("{0:.6f}".format(calc.current_buffer))
 
@@ -110,17 +109,22 @@ if __name__ == "__main__":
     # and then this outer method handles the places 
     def press_equals():
         global last_result
-        calc.equals()
-        last_result = calc.current_buffer
-        d = decimal.Decimal(str(calc.current_buffer))
-        calc.places_front = (len(d.as_tuple().digits) + d.as_tuple().exponent)
-        calc.places_back = (d.as_tuple().exponent * -1)
+        try:
+            calc.equals()
+            last_result = calc.current_buffer
+            d = decimal.Decimal(str(calc.current_buffer))
+            calc.places_front = (len(d.as_tuple().digits) + d.as_tuple().exponent)
+            calc.places_back = (d.as_tuple().exponent * -1)
         
-        if calc.places_back > 6:
-            current.configure(text="{0:.6f}".format(calc.current_buffer))
-            calc.current_buffer = float("{0:.6f}".format(calc.current_buffer))
-        else:
-            current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer))
+            if calc.places_back > 6:
+                current.configure(text="{0:.6f}".format(calc.current_buffer))
+                calc.current_buffer = float("{0:.6f}".format(calc.current_buffer))
+            else:
+                current.configure(text=("{0:." + str(calc.places_back) + "f}").format(calc.current_buffer))
+        except CalculatorDivideError:
+            calc.current_buffer = -1
+            calc.places_front = 1
+            calc.places_back = 0
 
     def period():
         global period_used

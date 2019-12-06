@@ -5,13 +5,21 @@ GUI Calculator Final Project
 """
 import decimal
 
+# Raised when a divide by zero operation is attempted
+class CalculatorDivideError(Exception):
+    pass
+
+# Raised when input is not of the expected type or range
+class CalculatorInputError(Exception):
+    pass
+
 # An operation in the Calculator's history
 class Operation():
     def __init__(self, op, value):
         if isinstance(op, str) != True:
-            raise ValueError("op argument should be str type")
+            raise CalculatorInputError("op argument should be str type")
         if (isinstance(value, int) != True) and (isinstance(value, float) != True):
-            raise ValueError("value argument should be an int or float type")
+            raise CalculatorInputError("value argument should be an int or float type")
         self.op = op
         self.value = value
 
@@ -21,7 +29,7 @@ class Operation():
 class Add(Operation):
     def __init__(self, value):
         if (isinstance(value, int) != True) and (isinstance(value, float) != True):
-            raise ValueError("value argument should be an int or float type")
+            raise CalculatorInputError("value argument should be an int or float type")
 
         Operation.__init__(self, '+', value)
 
@@ -31,7 +39,7 @@ class Add(Operation):
 class Subtract(Operation):
     def __init__(self, value):
         if (isinstance(value, int) != True) and (isinstance(value, float) != True):
-            raise ValueError("value argument should be an int or float type")
+            raise CalculatorInputError("value argument should be an int or float type")
 
         Operation.__init__(self, '-', value)
 
@@ -41,7 +49,7 @@ class Subtract(Operation):
 class Multiply(Operation):
     def __init__(self, value):
         if (isinstance(value, int) != True) and (isinstance(value, float) != True):
-            raise ValueError("value argument should be an int or float type")
+            raise CalculatorInputError("value argument should be an int or float type")
 
         Operation.__init__(self, '*', value)
 
@@ -51,7 +59,7 @@ class Multiply(Operation):
 class Divide(Operation):
     def __init__(self, value):
         if (isinstance(value, int) != True) and (isinstance(value, float) != True):
-            raise ValueError("value argument should be an int or float type")
+            raise CalculatorInputError("value argument should be an int or float type")
 
         Operation.__init__(self, '/', value)
 
@@ -60,15 +68,20 @@ class Divide(Operation):
 
 # A Calculator class - has a history and a current buffer, and it keeps track of decimal places
 class Calculator:
-    def __init__(self):
-        self.current_buffer = 0 # The currently displayed value
-        self.history = list()   # A list of Operations needed for the current equation
-        self.places_front = 1   # Decimal places in front of the period
-        self.places_back = 0    # Decimal places behind the decimal
+    def __init__(self, buf=0, fron=1, back=0):
+        if (isinstance(buf, float) != True) and (isinstance(buf, int) != True):
+            raise CalculatorInputError("Calculator expects a float or int for the first argument")
+        if (isinstance(fron, int) != True) or (isinstance(back, int) != True):
+            raise CalculatorInputError("Calculator expects an int for the second and third arguments")
+
+        self.current_buffer = buf # The currently displayed value
+        self.history = list()     # A list of Operations needed for the current equation
+        self.places_front = fron # Decimal places in front of the period
+        self.places_back = back  # Decimal places behind the decimal
 
     def add_operation(self, op):
         if isinstance(op, Operation) != True:
-            raise ValueError("add_operation() expects an Operation type argument")
+            raise CalculatorInputError("add_operation() expects an Operation type argument")
         self.history.append(op)
 
     def equals(self):
@@ -118,23 +131,28 @@ class Calculator:
                     else:
                         self.current_buffer = self.history[-1].value / self.current_buffer
 
-                    self.current_buffer = str(self.current_buffer)
-                    self.current_buffer = float(self.current_buffer)
+                self.current_buffer = str(self.current_buffer)
+                self.current_buffer = float(self.current_buffer)
 
                 del self.history[-1]
-            
+            err = False
+
             d = decimal.Decimal(str(self.current_buffer))
             self.places_front = (len(d.as_tuple().digits) + d.as_tuple().exponent)
             if isinstance(self.current_buffer, float):
                 self.places_back = (d.as_tuple().exponent * -1)
         except ZeroDivisionError:
             self.buffer_front_back(-1, 1, 0)
+            err = True
+        finally:
+            if err == True:
+                raise CalculatorDivideError
 
     def buffer_front_back(self, buf, fron, back):
         if (isinstance(buf, float) != True) and (isinstance(buf, int) != True):
-            raise ValueError("buffer_front_back() expects a float or int for the buffer argument")
+            raise CalculatorInputError("buffer_front_back() expects a float or int for the buffer argument")
         if (isinstance(fron, int) != True) or (isinstance(back, int) != True):
-            raise ValueError("buffer_front_back() expects an int for front and back arguments")
+            raise CalculatorInputError("buffer_front_back() expects an int for front and back arguments")
         self.current_buffer = buf
         self.places_front = fron
         self.places_back = back

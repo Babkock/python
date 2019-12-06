@@ -10,6 +10,8 @@ from calculator import Subtract
 from calculator import Multiply
 from calculator import Divide
 from calculator import Calculator
+from calculator import CalculatorDivideError
+from calculator import CalculatorInputError
 
 class CalculatorTest(unittest.TestCase):
     def setUp(self):
@@ -25,9 +27,18 @@ class CalculatorTest(unittest.TestCase):
         self.calc.equals()
         self.calc.places_front = 2
         self.calc.places_back = 0
-        print(self.calc)
 
         self.assertEqual(self.calc.current_buffer, 17)
+
+    def test_division(self):
+        self.calc.history = list()
+        self.calc.buffer_front_back(40, 1, 0)
+        self.calc.add_operation(Divide(2400))
+        self.calc.equals()
+        self.calc.places_front = 1
+        self.calc.places_back = 0
+
+        self.assertEqual(self.calc.current_buffer, 60)
 
     def test_multiplication(self):
         self.calc.history = list()
@@ -36,29 +47,28 @@ class CalculatorTest(unittest.TestCase):
         self.calc.equals()
         self.calc.places_front = 3
         self.calc.places_back = 0
-        print(self.calc)
 
         self.assertEqual(self.calc.current_buffer, 1200)
 
     def test_bad_input(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(CalculatorInputError):
             newcalc = Calculator()
             newcalc.buffer_front_back("hey", 5, 2)
 
     def test_buffer_front_back(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(CalculatorInputError):
             newcalc = Calculator()
             newcalc.buffer_front_back(5.5, 2.2, 6)
 
+    def test_bad_constructor(self):
+        with self.assertRaises(CalculatorInputError):
+            newcalc = Calculator("bad", 5, 2)
+
     def test_divide_by_zero(self):
-        newcalc = Calculator()
-        newcalc.buffer_front_back(0, 1, 0)
-        newcalc.add_operation(Divide(6))
-        newcalc.equals()
-        # Crashes right? Nope, handled
-        self.assertEqual(newcalc.current_buffer, -1)
-        self.assertEqual(newcalc.places_front, 1)
-        self.assertEqual(newcalc.places_back, 0)
+        with self.assertRaises(CalculatorDivideError):
+            newcalc = Calculator(0, 1, 0)
+            newcalc.add_operation(Divide(6))
+            newcalc.equals()
 
 if __name__ == "__main__":
     unittest.main()
