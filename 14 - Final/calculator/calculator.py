@@ -131,9 +131,6 @@ class Calculator:
                     else:
                         self.current_buffer = self.history[-1].value / self.current_buffer
 
-                self.current_buffer = str(self.current_buffer)
-                self.current_buffer = float(self.current_buffer)
-
                 del self.history[-1]
             err = False
 
